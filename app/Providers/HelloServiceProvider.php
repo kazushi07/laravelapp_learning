@@ -5,8 +5,8 @@ namespace App\Providers;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
-// use Validator; //追加
-use Illuminate\Support\Facades\Validator; //Validator::extends 使用時にエラーが出るためこちらに変更
+use Validator; //追加
+// use Illuminate\Support\Facades\Validator; //Validator::extends 使用時のエラー解消のはずだが同じエラーになる
 
 use App\Http\Validators\HelloValidator; //追加
 
@@ -16,19 +16,20 @@ class HelloServiceProvider extends ServiceProvider
      * Register services.
      */
     public function register(): void
-    {
+    {   
         //
     }
 
     /**
      * Bootstrap services.
      */
-public function boot(): void
-{
-    Validator::extends('hello', function($attribute, $value, $parameters, $validator){
-        return $value % 2 == 0;
-    });
-}
+    public function boot(): void
+    {
+        $validator = $this->app['validator'];
+        $validator->resolver(function($translator, $data, $rules, $messages){
+            return new HelloValidator($translator, $data, $rules, $messages);
+        });
+    }
 }
 
 //↓この書換でエラーが起こる、P157 リスト4-32
