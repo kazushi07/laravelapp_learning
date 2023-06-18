@@ -32,6 +32,8 @@ class HelloRequest extends FormRequest
             'name' => 'required',
             'mail' => 'email',
             'age'  => 'numeric|hello',
+            // 'age'  => ['numeric', new Myrule(5)],
+
         ];
     }
 
