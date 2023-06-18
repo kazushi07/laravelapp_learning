@@ -1,0 +1,38 @@
+
+//indexbladeの例
+<html>
+    <head>
+        <title>Hello/Index</title>
+        <style>
+            body { font-size:16pt collor:#999; }
+            h1 { font-size:50pt; text-align:right; color:#f6f6f6;
+                margin:-20px 0px -30px 0px; letter-spacinf:-4pt; }
+        </style>
+    </head>
+    <body>
+        <h1>Blade/Index</h1>
+        <p>&#64;foreachディレクティブの例</p>
+        <ol>
+            @if(isset($data))
+                <p>$data</p>
+                @foreach ($data as $item)
+                <li>{{$item}}
+                @endforeach
+            @else
+                <p>no data</p>
+            @endif
+        </ol>
+    </body>
+</html>
+
+・上記を動かすコントローラの例
+class HelloController extends Controller
+{
+    public function index()
+    {
+        $data = ['one','two','three','four','five'];
+        // return view('hello.index', ['data'=>$data]);
+        return view('hello.index', compact('data')); ←ここがポイント
+    }
+
+}
