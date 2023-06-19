@@ -7,34 +7,82 @@ use Illuminate\Http\Response;
 
 use App\Http\Requests\HelloRequest; //追記
 use Validator;  //追記
+use Illuminate\Support\Facades\DB; //追記
 
 class HelloController extends Controller
 {
     public function index(Request $request)
     {
-        if ($request->hasCookie('msg'))
-        {
-            $msg = 'Cookie: ' . $request->cokkie('msg');
-        } else {
-            $msg = '※クッキーはありません';
-        }
-        return view('hello.index', ['msg'=> $msg]);
+        $items = DB::select('select * from people');
+        return view('hello.index', ['items' => $items]); 
     }
 
     public function post(Request $request)
     {
-        $validate_rule = [
-            'msg' => 'required',
+        $items = DB::select('select * from people');
+        return view('hello.index', ['items' => $items]); 
+    }
+
+    public function add(Request $request)
+    {
+        return view('hello.add');
+    }
+
+    public function create(Request $request)
+    {
+        $param = [
+            'name' => $request->name,
+            'mail' => $request->mail,
+            'age' => $request->age,            
         ];
-        $this->validate($request,$validate_rule);
-        $msg = $request->msg;
-        $response = response()->view('hello.index',
-            ['msg'=>'「' . $msg .
-            '」をクッキーに保存しました']);
-        $response->cookie('msg', $msg, 100);
-        return $response;
+        DB::insert('insert into people (name, mail, age) values (:name, :mail, :age)', $param);
+        return redirect('/hello');
     }
 }
+
+
+// public function index(Request $request)
+// {
+//     if (isset($request->id))
+//     {
+//         $param = ['id' => $request->id];
+//         $items = DB::select('select * from people where id = :id', $param);
+//     } else {
+//         $items =DB::select('select * from people');
+//     }
+//     return view('hello.index', ['items' => $items]);
+// }
+
+// public function post(Request $request)
+// {
+//     $validate_rule = [
+//         'msg' => 'required',
+//     ];
+//     $this->validate($request,$validate_rule);
+//     $msg = $request->msg;
+//     $response = response()->view('hello.index',
+//         ['msg'=>'「' . $msg .
+//         '」をクッキーに保存しました']);
+//     $response->cookie('msg', $msg, 100);
+//     return $response;
+// }
+
+// public function index(Request $request)
+// {
+//     $items = DB::select('select * from people');
+//     return view('hello.index', ['items' => $items]);
+// }
+
+// public function index(Request $request)
+// {
+//     if ($request->hasCookie('msg'))
+//     {
+//         $msg = 'Cookie: ' . $request->cokkie('msg');
+//     } else {
+//         $msg = '※クッキーはありません';
+//     }
+//     return view('hello.index', ['msg'=> $msg]);
+// }
 
 // public function post(Request $request)
 // {

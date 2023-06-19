@@ -21,6 +21,9 @@ Route::get('hello', 'App\Http\Controllers\HelloController@index');
     // ->middleware(HelloMiddleware::class); //global middlewareをkernel.phpに登録した事により不要
 Route::post('hello', 'App\Http\Controllers\HelloController@post');
 
+//DB操作用
+Route::get('hello/add', 'App\Http\Controllers\HelloController@add');
+Route::post('hello/add', 'App\Http\Controllers\HelloController@create');
 
 // Route::get('hello', function () {
 //     return view('hello.index');
