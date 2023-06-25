@@ -52,6 +52,10 @@ Route::get('board', 'App\Http\Controllers\BoardController@index');
 Route::get('board/add', 'App\Http\Controllers\BoardController@add');
 Route::post('board/add', 'App\Http\Controllers\BoardController@create');
 
+Route::resource('rest', 'App\Http\Controllers\RestappController');
+
+Route::get('hello/rest', 'App\Http\Controllers\HelloController@rest');
+
 // Route::get('hello', function () {
 //     return view('hello.index');
 // });
