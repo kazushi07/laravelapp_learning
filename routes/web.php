@@ -56,6 +56,10 @@ Route::resource('rest', 'App\Http\Controllers\RestappController');
 
 Route::get('hello/rest', 'App\Http\Controllers\HelloController@rest');
 
+//session
+Route::get('hello/session', 'App\Http\Controllers\HelloController@ses_get');
+Route::post('hello/session', 'App\Http\Controllers\HelloController@ses_put');
+
 // Route::get('hello', function () {
 //     return view('hello.index');
 // });
